@@ -1,15 +1,21 @@
+//Variabler för senaste och aktiva comicnumber
 var maxComic=-1;
 var currentComic;
 window.onload=function () {
 
     getData("latest");
 
+    //Eventlistener's för alla knappar på hemsidan, ändrar currentcomic variabeln
+
+
+    //Första comic
     document.getElementById("first").addEventListener("click", function () {
         if (currentComic!=1) {
             getData(1);
         }
     });
 
+    //Föregående comic
     document.getElementById("prev").addEventListener("click", function () {
         if (currentComic>1) {
             currentComic--;
@@ -17,12 +23,14 @@ window.onload=function () {
         }
     });
 
+    //En random comic
     document.getElementById("rand").addEventListener("click", function () {
         let randomComic=Math.floor(Math.random() * maxComic) + 1;
         getData(randomComic);
     });
     
 
+    //Nästa comic
     document.getElementById("next").addEventListener("click", function () { 
         if (currentComic<maxComic) {
             currentComic++;
@@ -31,6 +39,7 @@ window.onload=function () {
     });
     
 
+    //Senaste comic
     document.getElementById("latest").addEventListener("click", function () {
         if (currentComic!=maxComic) {
             getData(maxComic);
@@ -38,7 +47,8 @@ window.onload=function () {
     });
 }
 
-//Hämtar data från ett api
+//Hämtar data från ett api för att ändra alla hämtad info på hemsidan
+//Rensar även bort gammal data från hemsidan
 function getData(which) {
         let mainComic=document.getElementById("mainComic");
         mainComic.innerText="";
@@ -64,6 +74,12 @@ function getData(which) {
         });
 }
 
+//UNDER DENNA KOMMENTAR
+//Append funktioner - Hämtar data från fetch och använder den för att lägga in i HTML:en med olika ID:n
+
+
+
+//Hämtar data för titeln
 function appendTitle(data) {
     let title=document.getElementById("title");
 
@@ -73,10 +89,11 @@ function appendTitle(data) {
     title.appendChild(titel);
 }
 
+//Hämtar data för datumet
 function appendDate(data) {
     let date=document.getElementById("date");
 
-    let datum=new Date(data.year, data.month - 1, data.day)
+    let datum=new Date(data.year, data.month - 1, data.day);
     let formatDatum=datum.toLocaleDateString();
 
     datum=document.createElement("p");
@@ -85,6 +102,7 @@ function appendDate(data) {
     date.appendChild(datum);
 }
 
+//Hämtar data för bilden (the comic) och comic nummret
 function appendComic(data) {
     let mainComic=document.getElementById("mainComic");
 
@@ -98,8 +116,3 @@ function appendComic(data) {
     mainComic.appendChild(cap);
 }
 
-    /*
-    titel
-    datum skapad med ett js date object
-    HTML figure element med img och caption, caption ska innehålle num för serien
-    */
